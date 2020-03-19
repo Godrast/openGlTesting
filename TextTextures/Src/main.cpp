@@ -51,6 +51,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL 
 
+
 	int width = 640, height = 480;
 	/* Create a windowed mode window and its OpenGL context */
 	GLFWwindow* window;
@@ -60,6 +61,7 @@ int main(void)
 	glfwSetScrollCallback(window, scroll_callback);
 
 	glfwSetWindowUserPointer(window, (void*)(&wp));
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 
 	if (!window)
@@ -343,12 +345,18 @@ int main(void)
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
+	//const float radius = 10.f;
 	
 
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+
+		//float camX = sin(glfwGetTime()) * radius;
+		//float camZ = cos(glfwGetTime()) * radius;
+		//wp.camera.Position = glm::vec3(camX, wp.camera.Position[1], camZ);
+
 		//frame stuff
 		float currentFrame = glfwGetTime();
 		wp.deltaTime = currentFrame - wp.lastFrame;
@@ -393,17 +401,16 @@ int main(void)
 
 		glm::mat4 projection = glm::perspective(glm::radians(wp.camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = wp.camera.GetViewMatrix();
+		//glm::mat4 view = wp.camera.GetFixedViewMatrix(glm::vec3(0.f));
 
 		glm::mat4 model(1.0f);
 		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+		model = glm::scale(model, glm::vec3(0.5f)); // a smaller cube
 
 		lightProgram.use();
 		glBindVertexArray(VAOs[vaoAndVboNames["light"]]);
-		glm::mat4 lightModel = glm::translate(model, lightPos);
-		lightModel = glm::scale(lightModel, glm::vec3(0.2f));
 
-		lightProgram.setMat4("model", lightModel);
+		lightProgram.setMat4("model", model);
 		lightProgram.setMat4("view", view);
 		lightProgram.setMat4("projection", projection);
 		//lightProgram.setMat4("MVP", 1, );

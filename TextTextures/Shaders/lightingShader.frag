@@ -3,7 +3,7 @@
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
-    //sampler2D emission;
+    sampler2D emission;
     float shininess;
 }; 
 
@@ -48,17 +48,23 @@ uniform vec3 viewPos;
 
 uniform float time;
 
+uniform bool displayEmission = false;
+
 vec3 calculateAmbient(int i);
 vec3 calculateDiffuse(vec3 norm, vec3 lightDir, int i);
 vec3 calculateSpecular(vec3 norm, vec3 lightDir, int i);
+
+
+
+vec2 rotateUV(vec2 uv, float rotation);
 
 void main()
 {
     
 
     
-   //vec3 emission = vec3(texture(material.emission, TexCoords + vec2(0, time/2))) * vec3(sin(time)/6 + 0.3);
-    
+   vec3 emission;
+
     vec3 result;
 
     for(int i=0; i< numOfLights; i++){
@@ -86,6 +92,7 @@ void main()
             ambient  *= attenuation; 
             diffuse  *= attenuation;
             specular *= attenuation;
+
             if(lights[i].type == SPOTLIGHT){
 
                 float theta = dot(lightDir, normalize(-lights[i].direction));
@@ -95,12 +102,23 @@ void main()
                 ambient  *= intensity; 
                 diffuse  *= intensity;
                 specular *= intensity;
+
+                   if(displayEmission){
+                        vec2 uv = rotateUV(TexCoords + vec2(0, time/4), time);
+
+                        emission = vec3(texture(material.emission, uv ));// * vec3(sin(time)/4 + 0.25);
+
+                        emission *= attenuation;
+                        //if(intensity > 0)
+                            //emission *=0;
+                        emission *= intensity;
+                   } 
             }
         }
 
 
 
-        result += (ambient + diffuse + specular);// + emission);
+        result += (ambient + diffuse + specular + emission);
         //}
 
     }
@@ -130,6 +148,14 @@ vec3 calculateSpecular(vec3 norm, vec3 lightDir,int i){
     return vec3 (texture(material.specular, TexCoords))* spec * lights[i].specular;
 }
 
+
+vec2 rotateUV(vec2 uv, float rotation){
+    float mid = 0.5;
+    return vec2(
+        cos(rotation) * (uv.x - mid) + sin(rotation) * (uv.y - mid) + mid,
+        cos(rotation) * (uv.y - mid) - sin(rotation) * (uv.x - mid) + mid
+    );
+}
 
 //
 //view pos

@@ -393,7 +393,7 @@ int main(void)
 	texture.LoadTexture("./Textures/container2_specular.png", 1);
 	texture.ChangeMap(textureNames, 1, "box_specular");
 
-	texture.LoadTexture("./Textures/matrix.jpg", 2);
+	texture.LoadTexture("./Textures/cat.png", 2);
 	texture.ChangeMap(textureNames, 2, "emission");
 	//LoadTexture2D( &Texture);// , GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER, GL_NEAREST, GL_LINEAR);
 
@@ -429,12 +429,13 @@ int main(void)
 
 	ownLight::Light light1;
 
-	glm::vec3 spotlightColor(1.0f, 0.3f, 0.1f);
+	glm::vec3 spotlightColor(.8f, .8f, .8f);
+	spotlightColor *= glm::vec3(0.5f);
 
 	light1.type = ownLight::SPOTLIGHT;
 
-	light1.ambient = spotlightColor * glm::vec3(0.4f);// glm::vec3(0.4f, 0.4f, 0.4f);
-	light1.diffuse = spotlightColor * glm::vec3(0.7f);// glm::vec3(0.7f, 0.7f, 0.7f); // darken diffuse light a bit
+	light1.ambient = spotlightColor * glm::vec3(0.3f);// glm::vec3(0.4f, 0.4f, 0.4f);
+	light1.diffuse = spotlightColor * glm::vec3(0.5f);// glm::vec3(0.7f, 0.7f, 0.7f); // darken diffuse light a bit
 	light1.specular = spotlightColor;
 
 	light1.cutOff = glm::cos(glm::radians(12.5f));
@@ -446,7 +447,7 @@ int main(void)
 	cubeProgram.addLight("spotlight", &light1);
 
 
-	glm::vec3 lightColor(0.0f, 1.0f, 0.5f);
+	glm::vec3 lightColor(0.0f, 1.0f, 0.2f);
 
 
 	ownLight::Light light2;
@@ -454,7 +455,7 @@ int main(void)
 	light2.type = ownLight::POINT;
 
 	light2.ambient = lightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
-	light2.diffuse = lightColor* glm::vec3(0.5f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
+	light2.diffuse = lightColor * glm::vec3(0.5f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
 	light2.specular = lightColor;
 
 	light2.position = lightPos; // move to change every frame
@@ -465,6 +466,23 @@ int main(void)
 	light2.quadratic = 0.0075f;
 
 	cubeProgram.addLight("point", &light2);
+
+
+	glm::vec3 dirLightColor(1.0f, 0.2f, 0.9f);
+	ownLight::Light light3;
+
+	light3.type = ownLight::DIRECTIONAL;
+
+	light3.ambient = dirLightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
+	light3.diffuse = dirLightColor * glm::vec3(0.7f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
+	light3.specular = dirLightColor;
+
+	light3.direction = glm::vec3(0.1f, 0.2f, 1.0f); // move to change every frame
+
+
+
+	cubeProgram.addLight("directional", &light3);
+
 
 
 
@@ -530,8 +548,9 @@ int main(void)
 		cubeProgram.setInt("material.diffuse", textureNames["box"]);
 		cubeProgram.setInt("material.specular", textureNames["box_specular"]);
 		cubeProgram.setFloat("material.shininess", 32.0f);
-		//cubeProgram.setInt("material.emission", textureNames["emission"]);
+		cubeProgram.setInt("material.emission", textureNames["emission"]);
 		cubeProgram.setFloat("time", glfwGetTime());
+		cubeProgram.setBool("displayEmission", true);
 		//cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
 
 		light1.position = wp.camera.Position; // move to change every frame
@@ -550,7 +569,8 @@ int main(void)
 
 
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
+		for (int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++)
+		{
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePositions[i]);
 			float angle = 20.0f * i;

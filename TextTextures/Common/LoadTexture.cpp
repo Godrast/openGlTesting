@@ -33,7 +33,7 @@ void myTexture::Texture::LoadTextureInternal(const char* pathToFile, GLenum pnam
 
 	if (data)
 	{
-		std::cout << nrChannels;
+		//std::cout << nrChannels;
 		GLenum format;
 		if (nrChannels == 1)
 			format = GL_RED;

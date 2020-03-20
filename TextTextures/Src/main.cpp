@@ -489,43 +489,45 @@ int main(void)
 		glBindVertexArray(VAOs[vaoAndVboNames["cubeWithNormals"]]);
 		cubeProgram.setInt("material.diffuse", textureNames["box"]);
 		cubeProgram.setInt("material.specular", textureNames["box_specular"]);
-		cubeProgram.setInt("material.emission", textureNames["emission"]);
+		cubeProgram.setFloat("material.shininess", 32.0f);
+		//cubeProgram.setInt("material.emission", textureNames["emission"]);
 		cubeProgram.setFloat("time", glfwGetTime());
 		//cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
 
-		cubeProgram.setVec3("lightPos", lightPos);
+
 		cubeProgram.setMat4("view", view);
 		cubeProgram.setMat4("projection", projection);
 
 		cubeProgram.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
 		cubeProgram.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
 		cubeProgram.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-		cubeProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+		cubeProgram.setVec3("light.position", wp.camera.Position);
+		cubeProgram.setVec3("light.direction", wp.camera.Front);
+		cubeProgram.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+		cubeProgram.setFloat("light.outerCutOff", glm::cos(glm::radians(19.5f)));
+
+		//cubeProgram.setVec3("light.position", lightPos);
+
+		cubeProgram.setFloat("light.constant", 1.0f);
+		cubeProgram.setFloat("light.linear", 0.045f);
+		cubeProgram.setFloat("light.quadratic", 0.0075f);
+
 		cubeProgram.setVec3("viewPos", wp.camera.Position);
 
 
-		cubeProgram.setFloat("material.shininess", 32.0f);
 
 		glm::mat4 model = glm::mat4(1.0f);
-		cubeProgram.setMat4("model", model);
-		//cubeProgram.setMat4("MVP", 1, &mvp[0][0]);
-		//cubeProgram.setVec3("objectColor", glm::vec3(1.0f, 1.f, 1.f));
-		/*lightColor.x = sin(glfwGetTime() * 2.0f);
-		lightColor.y = sin(glfwGetTime() * 0.7f);
-		lightColor.z = sin(glfwGetTime() * 1.3f);
+		for (int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[i]);
+			float angle = 20.0f * i;
+			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			cubeProgram.setMat4("model", model);
 
-		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
-		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-
-		cubeProgram.setVec3("light.ambient", ambientColor);
-		cubeProgram.setVec3("light.diffuse", diffuseColor);*/
-
-
-
-		//cubeProgram.setVec3("offset", glm::vec3(1.5f, -1.0f, -1.0f));
-
-		//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+			//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 
 
 		glm::vec3 lightColor(1.f);

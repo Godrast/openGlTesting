@@ -65,5 +65,6 @@
     <None Include="Shaders\lightShader.vert" />
     <None Include="Shaders\lightingShader.vert" />
     <None Include="Shaders\lightingShader.frag" />
+    <None Include="Shaders\lightingShader.geom" />
   </ItemGroup>
 </Project>

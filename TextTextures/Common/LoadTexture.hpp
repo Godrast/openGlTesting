@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <vector>
 #include <stdarg.h>
+#include <map>
+#include <iterator>
 
 namespace myTexture
 {
@@ -15,7 +17,7 @@ namespace myTexture
 	private:
 		std::vector<GLuint> textureIDs;
 		int index = 0;
-		bool transparent = false;
+		//bool transparent = false;
 		bool flip = false;
 		int count = 0;
 
@@ -24,16 +26,19 @@ namespace myTexture
 
 	public:
 		Texture();
-		Texture(const char* pathToFile, bool transparent = false);
+		Texture(const char* pathToFile);
 
-		Texture(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, bool transparent = false);
+		Texture(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2);
 
 		void FlipNextImageVertically();
 		void LoadTexture(const char* pathToFile, int textureIndex = -1);
-		void LoadTextureTransparent(const char* pathToFile, int textureIndex = -1);
+		//useless
+		//void LoadTextureTransparent(const char* pathToFile, int textureIndex = -1);
 		void LoadTexture(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, int textureIndex = -1);
-		void LoadTextureTransparent(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, int textureIndex = -1);
+		//useless
+		//void LoadTextureTransparent(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, int textureIndex = -1);
 		void SetActive(int index, ...); // most likely useless
+		void ChangeMap(std::map<const char*, int>& names,  int index, const char* newName) const;
 	};
 
 }

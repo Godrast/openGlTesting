@@ -33,16 +33,19 @@ void myTexture::Texture::LoadTextureInternal(const char* pathToFile, GLenum pnam
 
 	if (data)
 	{
-
-		if (this->transparent)
-		{
-
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		}
+		std::cout << nrChannels;
+		GLenum format;
+		if (nrChannels == 1)
+			format = GL_RED;
+		else if (nrChannels == 3)
+			format = GL_RGB;
+		else if (nrChannels == 4)
+			format = GL_RGBA;
 		else
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		}
+			format = GL_RGBA;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+
 		glGenerateMipmap(GL_TEXTURE_2D);
 		if (this->index == this->count)
 		{
@@ -61,7 +64,7 @@ void myTexture::Texture::LoadTextureInternal(const char* pathToFile, GLenum pnam
 
 	stbi_image_free(data);
 
-	this->transparent = false;
+	//this->transparent = false;
 
 }
 
@@ -70,20 +73,20 @@ myTexture::Texture::Texture()
 {
 	this->index = this->count;
 }
-myTexture::Texture::Texture(const char* pathToFile, bool transparent)
+myTexture::Texture::Texture(const char* pathToFile)
 {
 	this->index = this->count;
-	this->transparent = transparent;
+	//this->transparent = transparent;
 	LoadTextureInternal(pathToFile, GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_REPEAT, GL_REPEAT);
 
 }
 
 
 
-myTexture::Texture::Texture(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, bool transparent)
+myTexture::Texture::Texture(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2)
 {
 	this->index = this->count;
-	this->transparent = transparent;
+	//this->transparent = transparent;
 	LoadTextureInternal(pathToFile, pname, pname2, param, param2);
 
 }
@@ -105,18 +108,18 @@ void myTexture::Texture::LoadTexture(const char* pathToFile, int textureIndex)
 	LoadTextureInternal(pathToFile, GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_REPEAT, GL_REPEAT);
 }
 
-void myTexture::Texture::LoadTextureTransparent(const char* pathToFile, int textureIndex)
-{
-	this->index = this->count;
-
-	if (textureIndex > -1)
-	{
-		this->index = textureIndex;
-	}
-	this->transparent = true;
-
-	LoadTextureInternal(pathToFile, GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_REPEAT, GL_REPEAT);
-}
+//void myTexture::Texture::LoadTextureTransparent(const char* pathToFile, int textureIndex)
+//{
+//	this->index = this->count;
+//
+//	if (textureIndex > -1)
+//	{
+//		this->index = textureIndex;
+//	}
+//	this->transparent = true;
+//
+//	LoadTextureInternal(pathToFile, GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_REPEAT, GL_REPEAT);
+//}
 
 void myTexture::Texture::LoadTexture(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, int textureIndex)
 {
@@ -129,17 +132,17 @@ void myTexture::Texture::LoadTexture(const char* pathToFile, GLenum pname, GLenu
 	LoadTextureInternal(pathToFile, pname, pname2, param, param2);
 }
 
-void myTexture::Texture::LoadTextureTransparent(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, int textureIndex)
-{
-	this->index = this->count;
-
-	if (textureIndex > -1)
-	{
-		this->index = textureIndex;
-	}
-	this->transparent = true;
-	LoadTextureInternal(pathToFile, pname, pname2, param, param2);
-}
+//void myTexture::Texture::LoadTextureTransparent(const char* pathToFile, GLenum pname, GLenum pname2, GLint param, GLint param2, int textureIndex)
+//{
+//	this->index = this->count;
+//
+//	if (textureIndex > -1)
+//	{
+//		this->index = textureIndex;
+//	}
+//	this->transparent = true;
+//	LoadTextureInternal(pathToFile, pname, pname2, param, param2);
+//}
 
 void myTexture::Texture::SetActive(int index, ...)
 {
@@ -152,5 +155,27 @@ void myTexture::Texture::SetActive(int index, ...)
 	}
 
 	va_end(args);
+}
+
+void myTexture::Texture::ChangeMap(std::map<const char*, int>& names, int index, const char* newName) const
+{
+
+	auto it = names.begin();
+	// Iterate through the map
+	while (it != names.end())
+	{
+		// Check if value of this entry matches with given value
+		if (it->second == index)
+		{
+			auto nodeHandler = names.extract(it->first);
+			nodeHandler.key() = newName;
+			names.insert(std::move(nodeHandler));
+			return;
+		}
+		// Go to next entry in map
+		it++;
+	}
+
+
 }
 

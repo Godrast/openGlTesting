@@ -30,9 +30,9 @@ int main(void)
 {
 
 
-	std::map<std::string, int> textureNames;
-	std::map<std::string, int> vaoAndVboNames;
-	std::map<std::string, int> eboNames;
+	std::map<const char*, int> textureNames;
+	std::map<const char*, int> vaoAndVboNames;
+	std::map<const char*, int> eboNames;
 
 	glm::vec3 cameraPos(0.f, 0.f, 3.f);
 	WindowManip wp(SCR_WIDTH, SCR_HEIGHT, cameraPos);
@@ -113,18 +113,63 @@ int main(void)
 	};
 
 	const GLfloat cubeVertices[] = {
-		//front                //colors
-		-0.5f,  0.5f,  0.5f,//   1.f, 1.f, 1.f,    //top left
-		 0.5f,  0.5f,  0.5f,//   1.f, 1.f, 1.f,    //top right
-		-0.5f, -0.5f,  0.5f,//   1.f, 1.f, 1.f,    //bottom left
-		 0.5f, -0.5f,  0.5f,//   1.f, 1.f, 1.f,    //bottom right
+		//front										 //colors
+		-0.5f,  0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //top left
+		 0.5f,  0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //top right
+		-0.5f, -0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //bottom left
+		 0.5f, -0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //bottom right
 
 		 //back
-		-0.5f,  0.5f,  -0.5f,//   1.f, 1.f, 1.f,    //top left
-		 0.5f,  0.5f,  -0.5f,//   1.f, 1.f, 1.f,    //top right
-		-0.5f, -0.5f,  -0.5f,//   1.f, 1.f, 1.f,    //bottom left
-		 0.5f, -0.5f,  -0.5f//   1.f, 1.f, 1.f,    //bottom right
+		-0.5f,  0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //top left
+		 0.5f,  0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //top right
+		-0.5f, -0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //bottom left
+		 0.5f, -0.5f,  -0.5f   //   1.f, 1.f, 1.f,    //bottom right
 
+	};
+
+	const GLfloat cubeVerticesWithNormals[] = {
+		// positions          // normals           // texture coords
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 	};
 
 	const GLuint cubeIndices[] = {
@@ -143,13 +188,14 @@ int main(void)
 	vaoAndVboNames.insert({ "image1", 0 });
 	vaoAndVboNames.insert({ "image2", 1 });
 	vaoAndVboNames.insert({ "light", 2 });
+	vaoAndVboNames.insert({ "cubeWithNormals", 3 });
 	eboNames.insert({ "image1", 0 });
 	eboNames.insert({ "light", 1 });
 
-	GLuint VAOs[3], VBOs[3];
+	GLuint VAOs[4], VBOs[4];
 	GLuint  EBOs[2];
-	glGenVertexArrays(3, VAOs);
-	glGenBuffers(3, VBOs);
+	glGenVertexArrays(4, VAOs);
+	glGenBuffers(4, VBOs);
 	glGenBuffers(2, EBOs);
 #pragma region oldTextureStuff
 
@@ -260,16 +306,27 @@ int main(void)
 		(void*)0            // array buffer offset
 	);
 
-	////color
-	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(
-	//	1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-	//	3,                                // size
-	//	GL_FLOAT,                         // type
-	//	GL_FALSE,                         // normalized?
-	//	6 * sizeof(float),                // stride
-	//	(void*)(3 * sizeof(float))        // array buffer offset
-	//);
+	glBindVertexArray(VAOs[vaoAndVboNames["cubeWithNormals"]]);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["cubeWithNormals"]]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVerticesWithNormals), cubeVerticesWithNormals, GL_STATIC_DRAW);
+
+
+
+	//position
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["cubeWithNormals"]]);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+
+	//normals
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["cubeWithNormals"]]);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+
+	//texture coords
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["cubeWithNormals"]]);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
 
 #pragma endregion
@@ -288,7 +345,7 @@ int main(void)
 	//basicProgram.LoadShaders(vertexShaders.getTestShader(), fragmentShaders.getShader());
 	//secondProgram.LoadShaders(vertexShaders.getGeneral3DShader(), fragmentShaders.getTempShader());
 	lightProgram.LoadShadersExternal("./Shaders/lightShader.vert", "./Shaders/lightShader.frag");
-	cubeProgram.LoadShadersExternal("./Shaders/lightingShader.vert", "./Shaders/lightingShader.frag");
+	cubeProgram.LoadShadersExternal("./Shaders/lightingShader.vert", "./Shaders/lightingShader.frag");//, "./Shaders/lightingShader.geom");
 
 #pragma region camera stuff, MVP
 
@@ -323,12 +380,21 @@ int main(void)
 	textureNames.insert({ "wall", 0 });
 
 	texture.FlipNextImageVertically();
-	texture.LoadTextureTransparent("./Textures/awesomeface.png");
+	texture.LoadTexture("./Textures/awesomeface.png");
 
 	textureNames.insert({ "face", 1 });
 	texture.FlipNextImageVertically();
-	texture.LoadTextureTransparent("./Textures/4b.png");
+	texture.LoadTexture("./Textures/4b.png");
 	textureNames.insert({ "cat", 2 });
+
+	texture.LoadTexture("./Textures/container2.png", 0);
+	texture.ChangeMap(textureNames, 0, "box");
+
+	texture.LoadTexture("./Textures/container2_specular.png", 1);
+	texture.ChangeMap(textureNames, 1, "box_specular");
+
+	texture.LoadTexture("./Textures/matrix.jpg", 2);
+	texture.ChangeMap(textureNames, 2, "emission");
 	//LoadTexture2D( &Texture);// , GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER, GL_NEAREST, GL_LINEAR);
 
 
@@ -346,7 +412,20 @@ int main(void)
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 	//const float radius = 10.f;
-	
+
+
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
 
 
 	/* Loop until the user closes the window */
@@ -403,35 +482,72 @@ int main(void)
 		glm::mat4 view = wp.camera.GetViewMatrix();
 		//glm::mat4 view = wp.camera.GetFixedViewMatrix(glm::vec3(0.f));
 
-		glm::mat4 model(1.0f);
+
+
+
+		cubeProgram.use();
+		glBindVertexArray(VAOs[vaoAndVboNames["cubeWithNormals"]]);
+		cubeProgram.setInt("material.diffuse", textureNames["box"]);
+		cubeProgram.setInt("material.specular", textureNames["box_specular"]);
+		cubeProgram.setInt("material.emission", textureNames["emission"]);
+		cubeProgram.setFloat("time", glfwGetTime());
+		//cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
+
+		cubeProgram.setVec3("lightPos", lightPos);
+		cubeProgram.setMat4("view", view);
+		cubeProgram.setMat4("projection", projection);
+
+		cubeProgram.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+		cubeProgram.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
+		cubeProgram.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+		cubeProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+		cubeProgram.setVec3("viewPos", wp.camera.Position);
+
+
+		cubeProgram.setFloat("material.shininess", 32.0f);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		cubeProgram.setMat4("model", model);
+		//cubeProgram.setMat4("MVP", 1, &mvp[0][0]);
+		//cubeProgram.setVec3("objectColor", glm::vec3(1.0f, 1.f, 1.f));
+		/*lightColor.x = sin(glfwGetTime() * 2.0f);
+		lightColor.y = sin(glfwGetTime() * 0.7f);
+		lightColor.z = sin(glfwGetTime() * 1.3f);
+
+		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+
+		cubeProgram.setVec3("light.ambient", ambientColor);
+		cubeProgram.setVec3("light.diffuse", diffuseColor);*/
+
+
+
+		//cubeProgram.setVec3("offset", glm::vec3(1.5f, -1.0f, -1.0f));
+
+		//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+		glm::vec3 lightColor(1.f);
+
+		model = glm::mat4(1);
 		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.5f)); // a smaller cube
+		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 
 		lightProgram.use();
 		glBindVertexArray(VAOs[vaoAndVboNames["light"]]);
+
 
 		lightProgram.setMat4("model", model);
 		lightProgram.setMat4("view", view);
 		lightProgram.setMat4("projection", projection);
 		//lightProgram.setMat4("MVP", 1, );
 		//lightProgram.setVec3("offset", lightPos);
+		lightProgram.setVec3("lightColor", lightColor);
 
 		glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
-		cubeProgram.use();
 
-
-		cubeProgram.setMat4("view", view);
-		cubeProgram.setMat4("projection", projection);
-
-		model = glm::mat4(1.0f);
-		cubeProgram.setMat4("model", model);
-		//cubeProgram.setMat4("MVP", 1, &mvp[0][0]);
-		cubeProgram.setVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-		cubeProgram.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-		//cubeProgram.setVec3("offset", glm::vec3(1.5f, -1.0f, -1.0f));
-
-		glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
 
 		//glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]) / 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
@@ -443,8 +559,8 @@ int main(void)
 		glfwPollEvents();
 	}
 
-	glDeleteVertexArrays(3, VAOs);
-	glDeleteBuffers(3, VBOs);
+	glDeleteVertexArrays(sizeof(VAOs) / sizeof(VAOs[0]), VAOs);
+	glDeleteBuffers(sizeof(VBOs) / sizeof(VBOs[0]), VBOs);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
@@ -510,8 +626,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 
 	WindowManip* wp;
-	
-	wp =reinterpret_cast<WindowManip*>(glfwGetWindowUserPointer(window));
+
+	wp = reinterpret_cast<WindowManip*>(glfwGetWindowUserPointer(window));
 
 	wp->camera.ProcessMouseScroll(yoffset);
 

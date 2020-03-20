@@ -20,10 +20,11 @@ class Shader
 
 private:
 	GLuint ProgramID;
+	void checkCompileErrors(GLuint shader, std::string type);
 
 public:
-	void LoadShadersExternal(const char * vertex_file_path, const char * fragment_file_path);
-	void LoadShaders(const char * vertex_shader, const char * fragment_shader);
+	void LoadShadersExternal(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+	void LoadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
 	void use();
 	// utility uniform functions

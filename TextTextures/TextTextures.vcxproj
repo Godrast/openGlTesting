@@ -165,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\lightingShader.frag" />
+    <None Include="Shaders\lightingShader.geom" />
     <None Include="Shaders\lightingShader.vert" />
     <None Include="Shaders\lightShader.frag" />
     <None Include="Shaders\lightShader.vert" />

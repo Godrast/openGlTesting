@@ -13,7 +13,7 @@
 #include "../Common/LoadTexture.hpp"
 #include "../Common/camera.hpp"
 #include "../Common/windowManip.hpp"
-
+#include "../Common/Light.cpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -427,6 +427,46 @@ int main(void)
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	ownLight::Light light1;
+
+	glm::vec3 spotlightColor(1.0f, 0.3f, 0.1f);
+
+	light1.type = ownLight::SPOTLIGHT;
+
+	light1.ambient = spotlightColor * glm::vec3(0.4f);// glm::vec3(0.4f, 0.4f, 0.4f);
+	light1.diffuse = spotlightColor * glm::vec3(0.7f);// glm::vec3(0.7f, 0.7f, 0.7f); // darken diffuse light a bit
+	light1.specular = spotlightColor;
+
+	light1.cutOff = glm::cos(glm::radians(12.5f));
+	light1.outerCutOff = glm::cos(glm::radians(19.5f));
+	light1.constant = 1.0f;
+	light1.linear = 0.14f;
+	light1.quadratic = 0.07f;
+
+	cubeProgram.addLight("spotlight", &light1);
+
+
+	glm::vec3 lightColor(0.0f, 1.0f, 0.5f);
+
+
+	ownLight::Light light2;
+
+	light2.type = ownLight::POINT;
+
+	light2.ambient = lightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
+	light2.diffuse = lightColor* glm::vec3(0.5f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
+	light2.specular = lightColor;
+
+	light2.position = lightPos; // move to change every frame
+
+
+	light2.constant = 1.0f;
+	light2.linear = 0.045f;
+	light2.quadratic = 0.0075f;
+
+	cubeProgram.addLight("point", &light2);
+
+
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -494,27 +534,19 @@ int main(void)
 		cubeProgram.setFloat("time", glfwGetTime());
 		//cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
 
+		light1.position = wp.camera.Position; // move to change every frame
+		light1.direction = wp.camera.Front;
+
+
 
 		cubeProgram.setMat4("view", view);
 		cubeProgram.setMat4("projection", projection);
 
-		cubeProgram.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-		cubeProgram.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
-		cubeProgram.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
-		cubeProgram.setVec3("light.position", wp.camera.Position);
-		cubeProgram.setVec3("light.direction", wp.camera.Front);
-		cubeProgram.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
-		cubeProgram.setFloat("light.outerCutOff", glm::cos(glm::radians(19.5f)));
-
-		//cubeProgram.setVec3("light.position", lightPos);
-
-		cubeProgram.setFloat("light.constant", 1.0f);
-		cubeProgram.setFloat("light.linear", 0.045f);
-		cubeProgram.setFloat("light.quadratic", 0.0075f);
 
 		cubeProgram.setVec3("viewPos", wp.camera.Position);
 
+		cubeProgram.useLights();
 
 
 		glm::mat4 model = glm::mat4(1.0f);
@@ -530,7 +562,6 @@ int main(void)
 		}
 
 
-		glm::vec3 lightColor(1.f);
 
 		model = glm::mat4(1);
 		model = glm::translate(model, lightPos);

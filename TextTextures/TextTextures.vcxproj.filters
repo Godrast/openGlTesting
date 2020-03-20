@@ -36,6 +36,9 @@
     <ClCompile Include="Common\windowManip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shaders\fragmentShaders.hpp">

@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\Light.cpp" />
     <ClCompile Include="Common\LoadTexture.cpp" />
     <ClCompile Include="Common\shader.cpp" />
     <ClCompile Include="Common\stb_image.cpp" />

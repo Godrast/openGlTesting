@@ -9,23 +9,32 @@
 #include <algorithm>
 #include <sstream>
 
+#include <map>
+
 #include <stdlib.h>
 #include <string.h>
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include "Light.cpp"
 
 class Shader
 {
 
 private:
 	GLuint ProgramID;
+	std::map<const char*, ownLight::Light *> lightSources;
 	void checkCompileErrors(GLuint shader, std::string type);
+	void setLight(ownLight::Light *currentLight, int index);
 
 public:
 	void LoadShadersExternal(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 	void LoadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
+	void addLight(const char* name, ownLight::Light *light);
+	void useLights();
+	//void useLights(const char * names);
 	void use();
 	// utility uniform functions
 	void setBool(const std::string& name, bool value) const;

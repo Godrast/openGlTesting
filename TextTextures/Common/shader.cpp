@@ -159,8 +159,69 @@ void Shader::checkCompileErrors(GLuint shader, std::string type)
 			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
-};
+}
 
+
+
+void Shader::addLight(const char* name, ownLight::Light* light)
+{
+	lightSources.insert({ name, light });
+}
+
+void Shader::setLight(ownLight::Light* currentLight, int index)
+{
+
+	std::string lightNum = "lights[" + std::to_string(index) + "].";
+	//std::cout << "name: " << lightNum << "\n";
+	//std::cout << glm::to_string(currentLight->direction);
+
+	setInt(lightNum + "type", currentLight->type);
+	setVec3(lightNum + "diffuse", currentLight->diffuse);
+	setVec3(lightNum + "specular", currentLight->specular);
+	setVec3(lightNum + "ambient", currentLight->ambient);
+
+	switch (currentLight->type)
+	{
+
+		case ownLight::SPOTLIGHT:
+
+			setFloat(lightNum + "cutOff", currentLight->cutOff);
+			setFloat(lightNum + "outerCutOff", currentLight->outerCutOff);
+			setVec3(lightNum + "direction", currentLight->direction);
+			//there is no break for a reason
+			//don't add it
+			//it's there to avoid at least some repeated code
+		case ownLight::POINT:
+
+			setFloat(lightNum + "constant", currentLight->constant);
+			setFloat(lightNum + "linear", currentLight->linear);
+			setFloat(lightNum + "quadratic", currentLight->quadratic);
+
+			setVec3(lightNum + "position", currentLight->position);
+			break;
+		case ownLight::DIRECTIONAL:
+
+			setVec3(lightNum + "direction", currentLight->direction);
+			break;
+
+	}
+
+}
+
+void Shader::useLights()
+{
+	int counter = 0;
+	auto light = lightSources.begin();
+	while (light != lightSources.end())
+	{
+		setLight(light->second, counter);
+		light++;
+		counter++; //i know it could be in the argument, but this is cleaner
+	}
+
+	setInt("numOfLights", counter);
+
+}
 
 void Shader::use()
 {

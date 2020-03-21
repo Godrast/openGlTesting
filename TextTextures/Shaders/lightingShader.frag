@@ -109,9 +109,9 @@ void main()
                         emission = vec3(texture(material.emission, uv ));// * vec3(sin(time)/4 + 0.25);
 
                         emission *= attenuation;
-                        //if(intensity > 0)
-                            //emission *=0;
-                        emission *= intensity;
+                        if(intensity > 0)
+                            emission *=1- intensity;
+                            //emission )= intensity;
                    } 
             }
         }

@@ -1,3 +1,4 @@
 *.exe
 *.ipch
 /x64/*
+/Dependencies/*

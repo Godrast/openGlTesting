@@ -259,7 +259,7 @@ int main(void)
 	textureNames.insert({ "box_specular", 1 });
 	texture.FlipNextImageVertically();
 
-	texture.LoadTexture("./Textures/4b.png");
+	texture.LoadTexture("./Textures/matrix.jpg");
 	textureNames.insert({ "emission", 2 });
 
 	//LoadTexture2D( &Texture);// , GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER, GL_NEAREST, GL_LINEAR);
@@ -275,6 +275,7 @@ int main(void)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+#pragma region lightStuff
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
@@ -336,6 +337,8 @@ int main(void)
 
 	cubeProgram.addLight("directional", &light3);
 
+
+#pragma endregion
 
 
 

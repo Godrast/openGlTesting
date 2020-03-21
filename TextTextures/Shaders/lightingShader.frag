@@ -67,6 +67,8 @@ void main()
 
     vec3 result;
 
+    float xRayVal = 1;
+
     for(int i=0; i< numOfLights; i++){
         vec3 lightDir;
         if(lights[i].type == DIRECTIONAL){
@@ -104,15 +106,22 @@ void main()
                 specular *= intensity;
 
                    if(displayEmission){
-                        vec2 uv = rotateUV(TexCoords + vec2(0, time/4), time);
+                        //vec2 uv = rotateUV(TexCoords + vec2(0, time/4), time);
 
-                        emission = vec3(texture(material.emission, uv ));// * vec3(sin(time)/4 + 0.25);
+                        emission = vec3(texture(material.emission, TexCoords + vec2(0, time/4) ));// * vec3(sin(time)/4 + 0.25);
 
                         emission *= attenuation;
                         //if(intensity > 0)
                             //emission *=0;
                         emission *= 1-intensity;
-                   } 
+                   }
+
+                        if(dist < 1){
+                            xRayVal = 1-intensity;
+                        }
+                   
+                   
+
             }
         }
 
@@ -123,7 +132,8 @@ void main()
 
     }
 
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, 1.0) * xRayVal;
+
 
 }
 

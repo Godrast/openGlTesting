@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-namespace ownLight
+namespace own
 {
 	enum LightType
 	{

@@ -151,6 +151,7 @@
     <ClCompile Include="Common\shader.cpp" />
     <ClCompile Include="Common\stb_image.cpp" />
     <ClCompile Include="Common\windowManip.cpp" />
+    <ClCompile Include="Common\Mesh.cpp" />
     <ClCompile Include="Shaders\fragmentShaders.cpp" />
     <ClCompile Include="Shaders\vertexShaders.cpp" />
     <ClCompile Include="Src\main.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Common\shader.hpp" />
     <ClInclude Include="Common\stb_image.h" />
     <ClInclude Include="Common\windowManip.hpp" />
+    <ClInclude Include="Common\Mesh.hpp" />
     <ClInclude Include="Shaders\fragmentShaders.hpp" />
     <ClInclude Include="Shaders\vertexShaders.hpp" />
   </ItemGroup>

@@ -280,12 +280,12 @@ int main(void)
 
 	//const float radius = 10.f;
 
-	ownLight::Light light1;
+	own::Light light1;
 
 	glm::vec3 spotlightColor(.8f, .8f, .8f);
 	spotlightColor *= glm::vec3(0.5f);
 
-	light1.type = ownLight::SPOTLIGHT;
+	light1.type = own::SPOTLIGHT;
 
 	light1.ambient = spotlightColor * glm::vec3(0.3f);// glm::vec3(0.4f, 0.4f, 0.4f);
 	light1.diffuse = spotlightColor * glm::vec3(0.5f);// glm::vec3(0.7f, 0.7f, 0.7f); // darken diffuse light a bit
@@ -303,9 +303,9 @@ int main(void)
 	glm::vec3 lightColor(0.0f, 1.0f, 0.2f);
 
 
-	ownLight::Light light2;
+	own::Light light2;
 
-	light2.type = ownLight::POINT;
+	light2.type = own::POINT;
 
 	light2.ambient = lightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
 	light2.diffuse = lightColor * glm::vec3(0.5f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
@@ -322,9 +322,9 @@ int main(void)
 
 
 	glm::vec3 dirLightColor(1.0f, 0.2f, 0.9f);
-	ownLight::Light light3;
+	own::Light light3;
 
-	light3.type = ownLight::DIRECTIONAL;
+	light3.type = own::DIRECTIONAL;
 
 	light3.ambient = dirLightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
 	light3.diffuse = dirLightColor * glm::vec3(0.7f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit

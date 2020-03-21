@@ -163,12 +163,12 @@ void Shader::checkCompileErrors(GLuint shader, std::string type)
 
 
 
-void Shader::addLight(const char* name, ownLight::Light* light)
+void Shader::addLight(const char* name, own::Light* light)
 {
 	lightSources.insert({ name, light });
 }
 
-void Shader::setLight(ownLight::Light* currentLight, int index)
+void Shader::setLight(own::Light* currentLight, int index)
 {
 
 	std::string lightNum = "lights[" + std::to_string(index) + "].";
@@ -183,7 +183,7 @@ void Shader::setLight(ownLight::Light* currentLight, int index)
 	switch (currentLight->type)
 	{
 
-		case ownLight::SPOTLIGHT:
+		case own::SPOTLIGHT:
 
 			setFloat(lightNum + "cutOff", currentLight->cutOff);
 			setFloat(lightNum + "outerCutOff", currentLight->outerCutOff);
@@ -191,7 +191,7 @@ void Shader::setLight(ownLight::Light* currentLight, int index)
 			//there is no break for a reason
 			//don't add it
 			//it's there to avoid at least some repeated code
-		case ownLight::POINT:
+		case own::POINT:
 
 			setFloat(lightNum + "constant", currentLight->constant);
 			setFloat(lightNum + "linear", currentLight->linear);
@@ -199,7 +199,7 @@ void Shader::setLight(ownLight::Light* currentLight, int index)
 
 			setVec3(lightNum + "position", currentLight->position);
 			break;
-		case ownLight::DIRECTIONAL:
+		case own::DIRECTIONAL:
 
 			setVec3(lightNum + "direction", currentLight->direction);
 			break;

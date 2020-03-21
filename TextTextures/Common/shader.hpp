@@ -24,15 +24,15 @@ class Shader
 
 private:
 	GLuint ProgramID;
-	std::map<const char*, ownLight::Light *> lightSources;
+	std::map<const char*, own::Light *> lightSources;
 	void checkCompileErrors(GLuint shader, std::string type);
-	void setLight(ownLight::Light *currentLight, int index);
+	void setLight(own::Light *currentLight, int index);
 
 public:
 	void LoadShadersExternal(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 	void LoadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
-	void addLight(const char* name, ownLight::Light *light);
+	void addLight(const char* name, own::Light *light);
 	void useLights();
 	//void useLights(const char * names);
 	void use();

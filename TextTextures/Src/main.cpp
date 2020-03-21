@@ -79,38 +79,7 @@ int main(void)
 		return -1;
 	}
 
-	//int nrAttributes;
-	//glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
-	//std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
 
-
-
-	//GLuint VertexArrayID;
-	//glGenVertexArrays(1, &VertexArrayID);
-	//glBindVertexArray(VertexArrayID);
-
-	// Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
-
-	const GLfloat image1Vertices[] = {
-		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
-	};
-
-	const GLfloat image2Vertices[] = {
-		// positions          // colors           // texture coords
-		 0.5f,  0.5f, 0.0f,   .5f, 0.0f, 0.0f,//   1.0f, 1.0f,   // top right
-		 0.5f, -0.5f, 0.0f,   0.4f, 1.0f, 0.3f,//   1.0f, 0.0f,   // bottom right
-		-0.5f, -0.5f, 0.0f,   0.3f, 0.0f, .7f,//   0.0f, 0.0f,   // bottom left
-		-0.5f,  0.5f, 0.0f,   .9f, .4f, 0.3f,//   0.0f, 1.0f    // top left 
-	};
-
-	const GLuint indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
-	};
 
 	const GLfloat cubeVertices[] = {
 		//front										 //colors
@@ -185,104 +154,15 @@ int main(void)
 
 #pragma region Attribs, VAO, VBO, EBO
 
-	vaoAndVboNames.insert({ "image1", 0 });
-	vaoAndVboNames.insert({ "image2", 1 });
-	vaoAndVboNames.insert({ "light", 2 });
-	vaoAndVboNames.insert({ "cubeWithNormals", 3 });
-	eboNames.insert({ "image1", 0 });
-	eboNames.insert({ "light", 1 });
+	vaoAndVboNames.insert({ "light", 0 });
+	vaoAndVboNames.insert({ "cubeWithNormals", 1 });
+	eboNames.insert({ "light", 0 });
 
-	GLuint VAOs[4], VBOs[4];
-	GLuint  EBOs[2];
-	glGenVertexArrays(4, VAOs);
-	glGenBuffers(4, VBOs);
-	glGenBuffers(2, EBOs);
-#pragma region oldTextureStuff
-
-	glBindVertexArray(VAOs[vaoAndVboNames["image1"]]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["image1"]]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(image1Vertices), image1Vertices, GL_STATIC_DRAW);
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOs[eboNames["image1"]]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-
-	//position
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["image1"]]);
-	glVertexAttribPointer(
-		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		8 * sizeof(float),  // stride
-		(void*)0            // array buffer offset
-	);
-
-	//color
-	glEnableVertexAttribArray(1);
-	//glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-	glVertexAttribPointer(
-		1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-		3,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		8 * sizeof(float),                // stride
-		(void*)(3 * sizeof(float))        // array buffer offset
-	);
-
-	//uv - texture coord
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(
-		2,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-		2,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		8 * sizeof(float),                // stride
-		(void*)(6 * sizeof(float))        // array buffer offset
-	);
-
-
-
-	glBindVertexArray(VAOs[vaoAndVboNames["image2"]]);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["image2"]]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(image2Vertices), image2Vertices, GL_STATIC_DRAW);
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOs[eboNames["image1"]]);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-
-	//position
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, VBOs[vaoAndVboNames["image2"]]);
-	glVertexAttribPointer(
-		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		6 * sizeof(float),  // stride
-		(void*)0            // array buffer offset
-	);
-
-	//color
-	glEnableVertexAttribArray(1);
-	//glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-	glVertexAttribPointer(
-		1,                                // attribute. No particular reason for 1, but must match the layout in the shader.
-		3,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		6 * sizeof(float),                // stride
-		(void*)(3 * sizeof(float))        // array buffer offset
-	);
-
-#pragma endregion
-
-
+	GLuint VAOs[2], VBOs[2];
+	GLuint  EBOs[1];
+	glGenVertexArrays(2, VAOs);
+	glGenBuffers(2, VBOs);
+	glGenBuffers(1, EBOs);
 
 	glBindVertexArray(VAOs[vaoAndVboNames["light"]]);
 
@@ -331,12 +211,6 @@ int main(void)
 
 #pragma endregion
 
-	//GLuint uvBuffer;
-
-	//glGenBuffers(1, &uvBuffer);
-	//glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
-
 	VertexShaders vertexShaders;
 	FragmentShaders fragmentShaders;
 
@@ -376,25 +250,18 @@ int main(void)
 #pragma region textureLoading
 
 	//textureStuff
-	myTexture::Texture texture("./Textures/wall.jpg");
-	textureNames.insert({ "wall", 0 });
+	myTexture::Texture texture("./Textures/container2.png");
+	textureNames.insert({ "box", 0 });
 
 	texture.FlipNextImageVertically();
-	texture.LoadTexture("./Textures/awesomeface.png");
+	texture.LoadTexture("./Textures/container2_specular.png");
 
-	textureNames.insert({ "face", 1 });
+	textureNames.insert({ "box_specular", 1 });
 	texture.FlipNextImageVertically();
+
 	texture.LoadTexture("./Textures/4b.png");
-	textureNames.insert({ "cat", 2 });
+	textureNames.insert({ "emission", 2 });
 
-	texture.LoadTexture("./Textures/container2.png", 0);
-	texture.ChangeMap(textureNames, 0, "box");
-
-	texture.LoadTexture("./Textures/container2_specular.png", 1);
-	texture.ChangeMap(textureNames, 1, "box_specular");
-
-	texture.LoadTexture("./Textures/cat.png", 2);
-	texture.ChangeMap(textureNames, 2, "emission");
 	//LoadTexture2D( &Texture);// , GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER, GL_NEAREST, GL_LINEAR);
 
 
@@ -412,20 +279,6 @@ int main(void)
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 	//const float radius = 10.f;
-
-
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
 
 	ownLight::Light light1;
 
@@ -490,9 +343,6 @@ int main(void)
 	while (!glfwWindowShouldClose(window))
 	{
 
-		//float camX = sin(glfwGetTime()) * radius;
-		//float camZ = cos(glfwGetTime()) * radius;
-		//wp.camera.Position = glm::vec3(camX, wp.camera.Position[1], camZ);
 
 		//frame stuff
 		float currentFrame = glfwGetTime();
@@ -506,34 +356,6 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-
-		// Send our transformation to the currently bound shader, in the "MVP" uniform
-		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-
-#pragma region OldTextureStuff
-		/*
-		secondProgram.use();
-		glBindVertexArray(VAOs[vaoAndVboNames["image2"]]);
-		secondProgram.setMat4("MVP", 1, &mvp[0][0]);
-		secondProgram.setVec3("offset", glm::vec3(-.5f, .5f, 0));
-		secondProgram.setFloat("alpha", 0.5f);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
-
-
-		basicProgram.use();
-		glBindVertexArray(VAOs[vaoAndVboNames["image1"]]);
-		basicProgram.setVec3("offset", glm::vec3(-1.f, .5f, 0));
-		basicProgram.setMat4("MVP", 1, &mvp[0][0]);
-		basicProgram.setVec3("offset", glm::vec3(.2f, -.5f, 0));
-		basicProgram.setInt("texture1", textureNames["wall"]);
-		basicProgram.setInt("texture2", textureNames["cat"]);
-		basicProgram.setFloat("interpolation", 1.f);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
-		*/
-
-
-#pragma endregion
 
 
 		glm::mat4 projection = glm::perspective(glm::radians(wp.camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -569,17 +391,17 @@ int main(void)
 
 
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++)
-		{
-			model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			cubeProgram.setMat4("model", model);
 
-			//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0));
+		float angle = 20.0f;
+		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+		cubeProgram.setMat4("model", model);
+
+		//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
 
 
 

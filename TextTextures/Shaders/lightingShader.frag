@@ -111,7 +111,7 @@ void main()
                         emission *= attenuation;
                         //if(intensity > 0)
                             //emission *=0;
-                        emission *= intensity;
+                        emission *= 1-intensity;
                    } 
             }
         }

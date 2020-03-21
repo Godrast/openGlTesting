@@ -1,17 +1,22 @@
 #version 330 core
 // worls pos
-struct Material {
-    sampler2D diffuse;
-    sampler2D specular;
-    sampler2D emission;
-    float shininess;
-}; 
-
 #define DIRECTIONAL 0
 #define SPOTLIGHT 1
 #define POINT 2
 
 #define MAX_NUM_OF_LIGHTS 50
+#define MAX_NUM_OF_TEXTURES 6
+
+
+
+struct Material {
+    sampler2D diffuse;
+    sampler2D specular;
+    sampler2D emission;//[MAX_NUM_OF_TEXTURES];
+    float shininess;
+    //int maxEmission;
+}; 
+
 
 struct Light {
     vec3 position;

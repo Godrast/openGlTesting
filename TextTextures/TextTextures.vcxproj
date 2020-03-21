@@ -106,7 +106,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glew32sd.lib;glfw3.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\openGl\glew-2.1.0\lib\Debug\x64;E:\openGl\glfw-3.3.2\src\Debug;E:\openGl\glm;$(SolutionDir)Dependencies\Assimp\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\openGl\glew-2.1.0\lib\Debug\x64;E:\openGl\glfw-3.3.2\src\Debug;E:\openGl\glm;$(SolutionDir)\Dependencies\Assimp\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,6 +152,7 @@
     <ClCompile Include="Common\stb_image.cpp" />
     <ClCompile Include="Common\windowManip.cpp" />
     <ClCompile Include="Common\Mesh.cpp" />
+    <ClCompile Include="Common\Model.cpp" />
     <ClCompile Include="Shaders\fragmentShaders.cpp" />
     <ClCompile Include="Shaders\vertexShaders.cpp" />
     <ClCompile Include="Src\main.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Common\stb_image.h" />
     <ClInclude Include="Common\windowManip.hpp" />
     <ClInclude Include="Common\Mesh.hpp" />
+    <ClInclude Include="Common\Model.hpp" />
     <ClInclude Include="Shaders\fragmentShaders.hpp" />
     <ClInclude Include="Shaders\vertexShaders.hpp" />
   </ItemGroup>
@@ -172,6 +174,8 @@
     <None Include="Shaders\lightingShader.vert" />
     <None Include="Shaders\lightShader.frag" />
     <None Include="Shaders\lightShader.vert" />
+    <None Include="Shaders\modelShader.frag" />
+    <None Include="Shaders\modelShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

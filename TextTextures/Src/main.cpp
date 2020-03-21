@@ -14,6 +14,8 @@
 #include "../Common/camera.hpp"
 #include "../Common/windowManip.hpp"
 #include "../Common/Light.cpp"
+#include "../Common/Model.hpp"
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -81,77 +83,77 @@ int main(void)
 
 
 
-	const GLfloat cubeVertices[] = {
-		//front										 //colors
-		-0.5f,  0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //top left
-		 0.5f,  0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //top right
-		-0.5f, -0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //bottom left
-		 0.5f, -0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //bottom right
+	//const GLfloat cubeVertices[] = {
+	//	//front										 //colors
+	//	-0.5f,  0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //top left
+	//	 0.5f,  0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //top right
+	//	-0.5f, -0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //bottom left
+	//	 0.5f, -0.5f,  0.5f,    //   1.f, 1.f, 1.f,    //bottom right
 
-		 //back
-		-0.5f,  0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //top left
-		 0.5f,  0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //top right
-		-0.5f, -0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //bottom left
-		 0.5f, -0.5f,  -0.5f   //   1.f, 1.f, 1.f,    //bottom right
+	//	 //back
+	//	-0.5f,  0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //top left
+	//	 0.5f,  0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //top right
+	//	-0.5f, -0.5f,  -0.5f,  //   1.f, 1.f, 1.f,    //bottom left
+	//	 0.5f, -0.5f,  -0.5f   //   1.f, 1.f, 1.f,    //bottom right
 
-	};
+	//};
 
-	const GLfloat cubeVerticesWithNormals[] = {
-		// positions          // normals           // texture coords
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+	//const GLfloat cubeVerticesWithNormals[] = {
+	//	// positions          // normals           // texture coords
+	//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+	//	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	//	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+	//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+	//	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+	//	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+	//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+	//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+	//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+	//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+	//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
-	};
+	//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+	//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
+	//};
 
-	const GLuint cubeIndices[] = {
-		 0,1,3,  0,3,2, //front
-		 0,4,6,  0,6,2, //left
-		 1,5,7,  1,7,3, //right
-		 0,1,5,  0,5,4, //top
-		 2,3,7,  2,7,6, //bottom
-		 4,6,7,  4,7,5  //back
-	};
+	//const GLuint cubeIndices[] = {
+	//	 0,1,3,  0,3,2, //front
+	//	 0,4,6,  0,6,2, //left
+	//	 1,5,7,  1,7,3, //right
+	//	 0,1,5,  0,5,4, //top
+	//	 2,3,7,  2,7,6, //bottom
+	//	 4,6,7,  4,7,5  //back
+	//};
 
 
-
+	/*
 #pragma region Attribs, VAO, VBO, EBO
 
 	vaoAndVboNames.insert({ "light", 0 });
@@ -210,16 +212,16 @@ int main(void)
 
 
 #pragma endregion
+*/
+//VertexShaders vertexShaders;
+//FragmentShaders fragmentShaders;
 
-	VertexShaders vertexShaders;
-	FragmentShaders fragmentShaders;
 
-
-	Shader basicProgram, secondProgram, lightProgram, cubeProgram;
-	//basicProgram.LoadShaders(vertexShaders.getTestShader(), fragmentShaders.getShader());
-	//secondProgram.LoadShaders(vertexShaders.getGeneral3DShader(), fragmentShaders.getTempShader());
-	lightProgram.LoadShadersExternal("./Shaders/lightShader.vert", "./Shaders/lightShader.frag");
-	cubeProgram.LoadShadersExternal("./Shaders/lightingShader.vert", "./Shaders/lightingShader.frag");//, "./Shaders/lightingShader.geom");
+//own::Shader basicProgram, secondProgram, lightProgram, cubeProgram;
+//basicProgram.LoadShaders(vertexShaders.getTestShader(), fragmentShaders.getShader());
+//secondProgram.LoadShaders(vertexShaders.getGeneral3DShader(), fragmentShaders.getTempShader());
+//lightProgram.LoadShadersExternal("./Shaders/lightShader.vert", "./Shaders/lightShader.frag");
+//cubeProgram.LoadShadersExternal("./Shaders/lightingShader.vert", "./Shaders/lightingShader.frag");//, "./Shaders/lightingShader.geom");
 
 #pragma region camera stuff, MVP
 
@@ -250,17 +252,17 @@ int main(void)
 #pragma region textureLoading
 
 	//textureStuff
-	myTexture::Texture texture("./Textures/container2.png");
-	textureNames.insert({ "box", 0 });
+	//myTexture::Texture texture("./Textures/container2.png");
+	//textureNames.insert({ "box", 0 });
 
-	texture.FlipNextImageVertically();
-	texture.LoadTexture("./Textures/container2_specular.png");
+	//texture.FlipNextImageVertically();
+	//texture.LoadTexture("./Textures/container2_specular.png");
 
-	textureNames.insert({ "box_specular", 1 });
-	texture.FlipNextImageVertically();
+	//textureNames.insert({ "box_specular", 1 });
+	//texture.FlipNextImageVertically();
 
-	texture.LoadTexture("./Textures/4b.png");
-	textureNames.insert({ "emission", 2 });
+	//texture.LoadTexture("./Textures/4b.png");
+	//textureNames.insert({ "emission", 2 });
 
 	//LoadTexture2D( &Texture);// , GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER, GL_NEAREST, GL_LINEAR);
 
@@ -272,8 +274,12 @@ int main(void)
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS);
 
-	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+
+	own::Shader model1;
+	model1.LoadShadersExternal("./Shaders/modelShader.vert", "./Shaders/modelShader.frag");
 
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
@@ -297,7 +303,7 @@ int main(void)
 	light1.linear = 0.14f;
 	light1.quadratic = 0.07f;
 
-	cubeProgram.addLight("spotlight", &light1);
+	model1.addLight("spotlight", &light1);
 
 
 	glm::vec3 lightColor(0.0f, 1.0f, 0.2f);
@@ -318,7 +324,7 @@ int main(void)
 	light2.linear = 0.045f;
 	light2.quadratic = 0.0075f;
 
-	cubeProgram.addLight("point", &light2);
+	model1.addLight("point", &light2);
 
 
 	glm::vec3 dirLightColor(1.0f, 0.2f, 0.9f);
@@ -334,9 +340,8 @@ int main(void)
 
 
 
-	cubeProgram.addLight("directional", &light3);
-
-
+	model1.addLight("directional", &light3);
+	own::Model mod("../nanoSuit2/nanosuit.obj");
 
 
 	/* Loop until the user closes the window */
@@ -352,7 +357,7 @@ int main(void)
 		processInput(window);
 
 		/* Render here */
-		glClearColor(0.f, 0.f, 0.2f, 0.f);
+		glClearColor(0.2f, 0.2f, 0.2f, 0.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -360,67 +365,88 @@ int main(void)
 
 		glm::mat4 projection = glm::perspective(glm::radians(wp.camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = wp.camera.GetViewMatrix();
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(0.2));
 		//glm::mat4 view = wp.camera.GetFixedViewMatrix(glm::vec3(0.f));
+		glDisable(GL_BLEND);
 
 
-
-
-		cubeProgram.use();
-		glBindVertexArray(VAOs[vaoAndVboNames["cubeWithNormals"]]);
-		cubeProgram.setInt("material.diffuse", textureNames["box"]);
-		cubeProgram.setInt("material.specular", textureNames["box_specular"]);
-		cubeProgram.setFloat("material.shininess", 32.0f);
-		cubeProgram.setInt("material.emission", textureNames["emission"]);
-		cubeProgram.setFloat("time", glfwGetTime());
-		cubeProgram.setBool("displayEmission", true);
-		//cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
+		model1.use();
 
 		light1.position = wp.camera.Position; // move to change every frame
 		light1.direction = wp.camera.Front;
 
-
-
-		cubeProgram.setMat4("view", view);
-		cubeProgram.setMat4("projection", projection);
-
-
-
-		cubeProgram.setVec3("viewPos", wp.camera.Position);
-
-		cubeProgram.useLights();
-
-
-		glm::mat4 model = glm::mat4(1.0f);
-
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0));
-		float angle = 20.0f;
-		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-		cubeProgram.setMat4("model", model);
-
-		//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		model1.setMat4("view", view);
+		model1.setMat4("projection", projection);
+		model1.setMat4("model", model);
 
 
 
-
-		model = glm::mat4(1);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-
-		lightProgram.use();
-		glBindVertexArray(VAOs[vaoAndVboNames["light"]]);
+		model1.setVec3("viewPos", wp.camera.Position);
+		model1.useLights();
 
 
-		lightProgram.setMat4("model", model);
-		lightProgram.setMat4("view", view);
-		lightProgram.setMat4("projection", projection);
+		mod.Draw(model1);
+
+		glEnable(GL_BLEND);
+
+
+		//cubeProgram.use();
+		//glBindVertexArray(VAOs[vaoAndVboNames["cubeWithNormals"]]);
+		//cubeProgram.setInt("material.diffuse", textureNames["box"]);
+		//cubeProgram.setInt("material.specular", textureNames["box_specular"]);
+		//cubeProgram.setFloat("material.shininess", 32.0f);
+		//cubeProgram.setInt("material.emission", textureNames["emission"]);
+		//cubeProgram.setFloat("time", glfwGetTime());
+		//cubeProgram.setBool("displayEmission", true);
+		////cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
+
+		//light1.position = wp.camera.Position; // move to change every frame
+		//light1.direction = wp.camera.Front;
+
+
+
+		//cubeProgram.setMat4("view", view);
+		//cubeProgram.setMat4("projection", projection);
+
+
+
+		//cubeProgram.setVec3("viewPos", wp.camera.Position);
+
+		//cubeProgram.useLights();
+
+
+		//glm::mat4 model = glm::mat4(1.0f);
+
+
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(0));
+		//float angle = 20.0f;
+		//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+		//cubeProgram.setMat4("model", model);
+
+		////glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+
+
+		//model = glm::mat4(1);
+		//model = glm::translate(model, lightPos);
+		//model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+
+		//lightProgram.use();
+		//glBindVertexArray(VAOs[vaoAndVboNames["light"]]);
+
+
+		//lightProgram.setMat4("model", model);
+		//lightProgram.setMat4("view", view);
+		//lightProgram.setMat4("projection", projection);
 		//lightProgram.setMat4("MVP", 1, );
 		//lightProgram.setVec3("offset", lightPos);
-		lightProgram.setVec3("lightColor", lightColor);
+		//lightProgram.setVec3("lightColor", lightColor);
 
-		glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		//glDrawElements(GL_TRIANGLES, sizeof(cubeIndices) / sizeof(cubeIndices[0]), GL_UNSIGNED_INT, 0); // Starting from vertex 0; 3 vertices total -> 1 triangle
 
 
 
@@ -434,8 +460,8 @@ int main(void)
 		glfwPollEvents();
 	}
 
-	glDeleteVertexArrays(sizeof(VAOs) / sizeof(VAOs[0]), VAOs);
-	glDeleteBuffers(sizeof(VBOs) / sizeof(VBOs[0]), VBOs);
+	//glDeleteVertexArrays(sizeof(VAOs) / sizeof(VAOs[0]), VAOs);
+	//glDeleteBuffers(sizeof(VBOs) / sizeof(VBOs[0]), VBOs);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

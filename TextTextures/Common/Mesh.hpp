@@ -23,11 +23,12 @@ namespace own
 		glm::vec2 TexCoords;
 	};
 
-	struct Texture
-	{
-		unsigned int id;
-		std::string type;
-	};
+    struct Texture
+    {
+        unsigned int id;
+        std::string type;
+        std::string path;
+    };
 
     class Mesh
     {
@@ -37,8 +38,8 @@ namespace own
         std::vector<unsigned int> indices;
         std::vector<Texture> textures;
         /*  Functions  */
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture>  textures);
-        void Draw(Shader * shader);
+        Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
+        void Draw(Shader  shader) const;
     private:
         /*  Render data  */
         unsigned int VAO, VBO, EBO;
@@ -50,6 +51,6 @@ namespace own
 }
 
 
-#endif // !MESH_HPP
+#endif // !MESH_PP
 
 

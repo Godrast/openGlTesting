@@ -42,6 +42,9 @@
     <ClCompile Include="Common\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shaders\fragmentShaders.hpp">
@@ -68,6 +71,9 @@
     <ClInclude Include="Common\Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Common\Model.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\lightShader.frag" />
@@ -75,5 +81,7 @@
     <None Include="Shaders\lightingShader.vert" />
     <None Include="Shaders\lightingShader.frag" />
     <None Include="Shaders\lightingShader.geom" />
+    <None Include="Shaders\modelShader.frag" />
+    <None Include="Shaders\modelShader.vert" />
   </ItemGroup>
 </Project>

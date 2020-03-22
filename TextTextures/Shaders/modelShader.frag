@@ -73,6 +73,7 @@ float xRay = 1;
 
     vec3 result;
 
+
     for(int i=0; i< numOfLights; i++){
         vec3 lightDir;
         if(lights[i].type == DIRECTIONAL){
@@ -87,7 +88,7 @@ float xRay = 1;
         vec3 norm = normalize(Normal);
         vec3 ambient = calculateAmbient(i, material.diffuse1);
         vec3 diffuse = calculateDiffuse(norm, lightDir, i, material.diffuse1);
-        vec3 specular = calculateSpecular(norm,lightDir, i, material.specular1, 32);
+        vec3 specular = calculateSpecular(norm,lightDir, i, material.specular1, 64);
 
 
         if(lights[i].type != DIRECTIONAL){
@@ -105,29 +106,27 @@ float xRay = 1;
                 float epsilon   = lights[i].cutOff - lights[i].outerCutOff;
                 float intensity = clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0); 
 
-                //ambient  *= intensity; 
-                //diffuse  *= intensity;
-                //specular *= intensity;
+                ambient  *= intensity; 
+                diffuse  *= intensity;
+                specular *= intensity;
 
-                if(dist < 0.5){
+//                if(dist < 0.5){
 
-                    xRay = 1-intensity;
-                }else{
-                }
-
+//                    xRay = 1-intensity;
+//                }
+//
                    if(displayEmission){
                         //vec2 uv = rotateUV(TexCoords + vec2(0, time/10), time);
 
                         emission = vec3(texture(material.emission, TexCoords + vec2(0, time/10) ));// * vec3(sin(time)/4 + 0.25);
 
                         emission *= attenuation;
-                        //if(intensity > 0)
-                            //emission *=0;
-//                            if(dist < 2){
-//                                emission *= intensity;
-//                            } else {
-//                                emission *= 0;
-//                            }
+
+                        if(dist < 2){
+                            emission *= intensity;
+                        } else {
+                            emission *= 0;
+                        }
                    } 
             }
         }
@@ -143,13 +142,12 @@ float xRay = 1;
         FragColor = texture(material.diffuse1, TexCoords) + texture(material.specular1, TexCoords);
 
     }else{
+        gl_FragDepth = gl_FragCoord.z;
         if(xRay<1){
             //result = result.rgb;
-            gl_FragDepth += 1;//(10 * (1-xRay));
-        }else{
-            gl_FragDepth = gl_FragCoord.z;
+            gl_FragDepth = 1;//(10 * (1-xRay));
         }
-        FragColor = vec4(result, 1.0) * xRay;
+        FragColor = vec4(result, 1.0);
     
     }
 }

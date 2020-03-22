@@ -163,9 +163,9 @@ void own::Shader::checkCompileErrors(GLuint shader, std::string type)
 
 
 
-void own::Shader::addLight(const char* name, own::Light* light)
+void own::Shader::addLight(own::Light* light, const char* name)
 {
-	lightSources.insert({ name, light });
+	lightSources.insert({ light,  name });
 }
 
 void own::Shader::setLight(own::Light* currentLight, int index)
@@ -202,6 +202,8 @@ void own::Shader::setLight(own::Light* currentLight, int index)
 		case own::DIRECTIONAL:
 
 			setVec3(lightNum + "direction", currentLight->direction);
+			//std::cout << "name: " << lightNum << "\n";
+
 			break;
 
 	}
@@ -214,7 +216,7 @@ void own::Shader::useLights()
 	auto light = lightSources.begin();
 	while (light != lightSources.end())
 	{
-		setLight(light->second, counter);
+		setLight(light->first, counter);
 		light++;
 		counter++; //i know it could be in the argument, but this is cleaner
 	}

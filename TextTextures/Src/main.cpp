@@ -273,6 +273,7 @@ int main(void)
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS);
 
+	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
@@ -302,7 +303,7 @@ int main(void)
 	light1.linear = 0.14f;
 	light1.quadratic = 0.07f;
 
-	model1.addLight("spotlight", &light1);
+	model1.addLight(&light1, "spotlight");
 
 
 	glm::vec3 lightColor(0.0f, 1.0f, 0.2f);
@@ -323,10 +324,10 @@ int main(void)
 	light2.linear = 0.045f;
 	light2.quadratic = 0.0075f;
 
-	model1.addLight("point", &light2);
+	model1.addLight(&light2, "point");
 
 
-	glm::vec3 dirLightColor(1.0f, 0.2f, 0.9f);
+	glm::vec3 dirLightColor(1.0f, 0.0f, 0.0f);
 	own::Light light3;
 
 	light3.type = own::DIRECTIONAL;
@@ -337,17 +338,49 @@ int main(void)
 
 	light3.direction = glm::vec3(0.1f, 0.2f, 1.0f); // move to change every frame
 
+	model1.addLight(&light3, "directional");
 
 
-	model1.addLight("directional", &light3);
+
+	dirLightColor = glm::vec3(.0f, 1.0f, 0.0f);
+	own::Light light4;
+
+	light4.type = own::DIRECTIONAL;
+
+	light4.ambient = dirLightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
+	light4.diffuse = dirLightColor * glm::vec3(0.7f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
+	light4.specular = dirLightColor;
+
+	light4.direction = glm::vec3(0.6f, 0.5f, 1.0f); // move to change every frame
+
+
+	model1.addLight(&light4, "directional");
+
+
+	dirLightColor = glm::vec3(0.f, 0.f, 1.0f);
+	own::Light light5;
+
+	light5.type = own::DIRECTIONAL;
+
+	light5.ambient = dirLightColor * glm::vec3(0.2f);// glm::vec3(0.0f, 0.2f, 0.1f);
+	light5.diffuse = dirLightColor * glm::vec3(0.7f);// glm::vec3(0.0f, 0.5f, 0.25f); // darken diffuse light a bit
+	light5.specular = dirLightColor;
+
+	light5.direction = glm::vec3(-0.6f, 0.5f, 1.0f); // move to change every frame
+
+
+	model1.addLight(&light5, "directional");
+
+
 	own::Model mod("../nanoSuit2/nanosuit.obj");
-	glEnable(GL_BLEND);
-
 
 	//myTexture::Texture texture;
 	//texture.LoadTexture("./Textures/matrix.jpg");
-	//textureNames.insert({ "emission", 0 });
+	textureNames.insert({ "emission", 3 });
 
+	unsigned int textureId = own::TextureFromFile("matrix.jpg", "./Textures/");
+	glActiveTexture(GL_TEXTURE0 + textureNames["emission"]); // activate proper texture unit before binding
+	glBindTexture(GL_TEXTURE_2D, textureId);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -383,9 +416,9 @@ int main(void)
 		model1.setMat4("view", view);
 		model1.setMat4("projection", projection);
 		model1.setMat4("model", model);
-		//model1.setBool("displayEmission", true);
-		//model1.setInt("material.emission", textureNames["emission"]);
-		//model1.setFloat("time", glfwGetTime());
+		model1.setBool("displayEmission", true);
+		model1.setInt("material.emission", textureNames["emission"]);
+		model1.setFloat("time", glfwGetTime());
 
 
 

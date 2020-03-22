@@ -29,7 +29,7 @@ namespace own
 
 	private:
 		GLuint ProgramID;
-		std::map<const char*, own::Light*> lightSources;
+		std::map<own::Light* ,const char*> lightSources;
 		void checkCompileErrors(GLuint shader, std::string type);
 		void setLight(own::Light* currentLight, int index);
 
@@ -37,7 +37,7 @@ namespace own
 		void LoadShadersExternal(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 		void LoadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
-		void addLight(const char* name, own::Light* light);
+		void addLight(own::Light* light, const char* name);
 		void useLights();
 		//void useLights(const char * names);
 		void use();

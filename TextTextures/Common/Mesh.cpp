@@ -40,13 +40,13 @@ void own::Mesh::setupMesh()
 }
 
 
-void own::Mesh::Draw(Shader shader) const
+void own::Mesh::Draw(Shader shader, int textureOffset) const
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+		glActiveTexture(GL_TEXTURE0 + i + textureOffset); // activate proper texture unit before binding
 		glBindTexture(GL_TEXTURE_2D, textures.at(i).id);
 		// retrieve texture number (the N in diffuse_textureN)
 		std::string number;
@@ -61,13 +61,13 @@ void own::Mesh::Draw(Shader shader) const
 		}
 		else if (name == "emission")
 		{
-			shader.setInt(("material." + name).c_str(), i);
+			shader.setInt(("material." + name).c_str(), i + textureOffset);
 			shader.setBool("displayEmission", true);
 			//glBindTexture(GL_TEXTURE_2D, textures->at(i).id);
 			continue;
 		}
 		//std::cout << "material." + name + number << "\n";
-		shader.setInt(("material." + name + number).c_str(), i);
+		shader.setInt(("material." + name + number).c_str(), i + textureOffset);
 	}
 	glActiveTexture(GL_TEXTURE0);
 

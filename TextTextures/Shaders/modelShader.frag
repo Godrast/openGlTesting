@@ -49,6 +49,7 @@ in vec3 Normal;
 in vec3 FragPos;
 
 out vec4 FragColor;
+out float gl_FragDepth ;
 
 vec3 calculateAmbient(int i, sampler2D diffuse);
 vec3 calculateDiffuse(vec3 norm, vec3 lightDir, int i, sampler2D diffuse);
@@ -104,24 +105,29 @@ float xRay = 1;
                 float epsilon   = lights[i].cutOff - lights[i].outerCutOff;
                 float intensity = clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0); 
 
-                ambient  *= intensity; 
-                diffuse  *= intensity;
-                specular *= intensity;
+                //ambient  *= intensity; 
+                //diffuse  *= intensity;
+                //specular *= intensity;
 
-                if(dist < 1){
+                if(dist < 0.5){
 
-                    //xRay = 1-intensity;
+                    xRay = 1-intensity;
+                }else{
                 }
 
                    if(displayEmission){
-                        vec2 uv = rotateUV(TexCoords + vec2(0, time/4), time);
+                        //vec2 uv = rotateUV(TexCoords + vec2(0, time/10), time);
 
-                        emission = vec3(texture(material.emission, uv ));// * vec3(sin(time)/4 + 0.25);
+                        emission = vec3(texture(material.emission, TexCoords + vec2(0, time/10) ));// * vec3(sin(time)/4 + 0.25);
 
                         emission *= attenuation;
                         //if(intensity > 0)
                             //emission *=0;
-                        emission *= 1-intensity;
+//                            if(dist < 2){
+//                                emission *= intensity;
+//                            } else {
+//                                emission *= 0;
+//                            }
                    } 
             }
         }
@@ -137,7 +143,12 @@ float xRay = 1;
         FragColor = texture(material.diffuse1, TexCoords) + texture(material.specular1, TexCoords);
 
     }else{
-
+        if(xRay<1){
+            //result = result.rgb;
+            gl_FragDepth += 1;//(10 * (1-xRay));
+        }else{
+            gl_FragDepth = gl_FragCoord.z;
+        }
         FragColor = vec4(result, 1.0) * xRay;
     
     }

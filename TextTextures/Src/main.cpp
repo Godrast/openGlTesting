@@ -252,8 +252,7 @@ int main(void)
 #pragma region textureLoading
 
 	//textureStuff
-	//myTexture::Texture texture("./Textures/container2.png");
-	//textureNames.insert({ "box", 0 });
+
 
 	//texture.FlipNextImageVertically();
 	//texture.LoadTexture("./Textures/container2_specular.png");
@@ -288,8 +287,8 @@ int main(void)
 
 	own::Light light1;
 
-	glm::vec3 spotlightColor(.8f, .8f, .8f);
-	spotlightColor *= glm::vec3(0.5f);
+	glm::vec3 spotlightColor(1.f, 1.f, 1.f);
+	//spotlightColor *= glm::vec3(0.8f);
 
 	light1.type = own::SPOTLIGHT;
 
@@ -342,7 +341,12 @@ int main(void)
 
 	model1.addLight("directional", &light3);
 	own::Model mod("../nanoSuit2/nanosuit.obj");
+	glEnable(GL_BLEND);
 
+
+	//myTexture::Texture texture;
+	//texture.LoadTexture("./Textures/matrix.jpg");
+	//textureNames.insert({ "emission", 0 });
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -368,7 +372,7 @@ int main(void)
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::scale(model, glm::vec3(0.2));
 		//glm::mat4 view = wp.camera.GetFixedViewMatrix(glm::vec3(0.f));
-		glDisable(GL_BLEND);
+		//glDisable(GL_BLEND);
 
 
 		model1.use();
@@ -379,6 +383,9 @@ int main(void)
 		model1.setMat4("view", view);
 		model1.setMat4("projection", projection);
 		model1.setMat4("model", model);
+		//model1.setBool("displayEmission", true);
+		//model1.setInt("material.emission", textureNames["emission"]);
+		//model1.setFloat("time", glfwGetTime());
 
 
 
@@ -388,7 +395,7 @@ int main(void)
 
 		mod.Draw(model1);
 
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 
 
 		//cubeProgram.use();

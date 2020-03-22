@@ -4,7 +4,7 @@
 void own::Model::Draw(Shader shader)
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
-		meshes.at(i).Draw(shader);
+		meshes.at(i).Draw(shader, this->textureOffset);
 }
 
 

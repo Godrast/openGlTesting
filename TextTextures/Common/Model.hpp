@@ -28,12 +28,14 @@ namespace own
     {
     public:
         /*  Functions   */
-        Model(const char* path)
+        Model(const char* path, int textureOffset = 0) : textureOffset(textureOffset)
         {
             loadModel(path);
         }
         void Draw(Shader  shader);
     private:
+
+        int textureOffset;
         /*  Model Data  */
         std::vector<Mesh> meshes;
         std::string directory;

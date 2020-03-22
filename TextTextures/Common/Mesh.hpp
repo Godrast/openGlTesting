@@ -39,7 +39,7 @@ namespace own
         std::vector<Texture> textures;
         /*  Functions  */
         Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
-        void Draw(Shader  shader) const;
+        void Draw(Shader  shader, int textureOffset) const;
     private:
         /*  Render data  */
         unsigned int VAO, VBO, EBO;

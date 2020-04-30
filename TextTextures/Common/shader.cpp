@@ -218,7 +218,7 @@ void own::Shader::useLights()
 	{
 		setLight(light->first, counter);
 		light++;
-		counter++; //i know it could be in the argument, but this is cleaner
+		counter++; //i know it could be incremented in the argument, but this is cleaner
 	}
 
 	setInt("numOfLights", counter);

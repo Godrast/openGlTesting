@@ -37,6 +37,7 @@ uniform int numOfLights;
   
 uniform Material material;
 out vec4 FragColor;
+out float gl_FragDepth;
 
 in vec3 Normal;
 in vec3 FragPos;
@@ -131,8 +132,13 @@ void main()
         //}
 
     }
+    gl_FragDepth = gl_FragCoord.z;
+    //if(xRayVal != 1){
+    gl_FragDepth += 1-xRayVal;
+    //}
+    
 
-    FragColor = vec4(result, 1.0) * xRayVal;
+    FragColor = vec4(result, 1.0);// * xRayVal;
 
 
 }

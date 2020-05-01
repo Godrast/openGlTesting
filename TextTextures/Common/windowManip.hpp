@@ -10,6 +10,8 @@ public:
 	float deltaTime = 0.f;
 	float lastFrame = 0.f;
 
+	bool shouldShowXray = true;
+	bool pressedSpace = false;
 	Camera camera;//(glm::vec3(0.f, 0.f, 3.f));
 
 

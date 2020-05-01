@@ -376,6 +376,7 @@ int main(void)
 		cubeProgram.setInt("material.emission", textureNames["emission"]);
 		cubeProgram.setFloat("time", glfwGetTime());
 		cubeProgram.setBool("displayEmission", true);
+		cubeProgram.setBool("ShouldShowXray", wp.shouldShowXray);
 		//cubeProgram.setVec3("material.ambient", glm::vec3(0.15f));
 
 		light1.position = wp.camera.Position; // move to change every frame
@@ -472,6 +473,15 @@ void processInput(GLFWwindow* window)
 		wp->camera.ProcessKeyboard(LEFT, wp->deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		wp->camera.ProcessKeyboard(RIGHT, wp->deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !wp->pressedSpace)
+	{
+		wp->pressedSpace = true;
+		wp->shouldShowXray = !wp->shouldShowXray;
+	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE)
+	{
+		wp->pressedSpace = false;
+	}
 }
 
 // glfw: whenever the mouse moves, this callback is called

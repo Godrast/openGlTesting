@@ -1,11 +1,14 @@
-﻿  main.cpp
+﻿  Light.cpp
+  windowManip.cpp
+  main.cpp
 E:\C++\TextTextures\TextTextures\Src\main.cpp(351,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 E:\C++\TextTextures\TextTextures\Src\main.cpp(377,43): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(487,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(488,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(492,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(493,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(495,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(496,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-E:\C++\TextTextures\TextTextures\Src\main.cpp(510,32): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(497,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(498,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(502,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(503,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(505,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(506,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\C++\TextTextures\TextTextures\Src\main.cpp(520,32): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   TextTextures.vcxproj -> E:\C++\TextTextures\x64\Debug\TextTextures.exe

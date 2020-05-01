@@ -36,6 +36,8 @@ uniform Light lights[MAX_NUM_OF_LIGHTS];
 uniform int numOfLights;
   
 uniform Material material;
+
+uniform bool ShouldShowXray;
 out vec4 FragColor;
 out float gl_FragDepth;
 
